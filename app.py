@@ -1,47 +1,37 @@
 """
-ChatPDF: Conversational Interface for PDF Files.
+ChatPDF
 
-This application allows users to upload PDF files, processes the textual content,
-and enables users to ask questions related to the content of the PDF. The app
-then provides answers to these questions by using a conversational language model.
-
-Attributes:
------------
-imported modules:
-    - os: Provides a way of using operating system dependent functionality.
-    - streamlit: Framework for creating web apps with Python.
-    - docx.Document: For parsing and extracting text from DOCX files.
-    - langchain: Series of modules for conversational retrieval chains, chat models, embeddings,
-                text splitters and vector stores.
-    - PyPDF2.PdfReader: Used to extract text from PDF files.
-    - templates: Contains predefined chat user interface templates.
+ChatPDF is a Streamlit application that allows users to upload PDF and DOCX files
+and then ask questions related to the content of those documents.
+The content of the documents is indexed and vectorized to allow for natural
+language interactions. The application uses the OpenAI API to power the conversational
+interface, FAISS for fast similarity search, and various other utilities to parse
+and handle document content.
 
 Functions:
 ----------
-- parseDocx(data: bytes) -> str:
-    Parses a DOCX file and extracts the text content.
+- parse_docx(data: bytes) -> str:
+    Parse a DOCX file and return its textual content.
 
 - get_text(docs: list) -> str:
-    Extracts textual content from a list of uploaded PDF files.
+    Extract and combine the textual content of a list of uploaded PDF and DOCX files.
 
 - get_chunks(data: str) -> list:
-    Splits the provided text data into manageable chunks.
+    Split the provided text into manageable chunks based on characters.
 
 - get_vector(chunks: list) -> FAISS:
-    Generates vectors from text chunks using the FAISS vector store and OpenAI embeddings.
+    Convert a list of text chunks into vectors using OpenAI embeddings and store them using FAISS.
 
 - get_llm_chain(vectors: FAISS) -> ConversationalRetrievalChain:
-    Creates a conversational retrieval chain using a given set of vectors.
+    Create a conversational retrieval chain instance ready for processing user queries 
+    using the provided set of vectors.
 
 - main() -> None:
-    The main function that initializes the Streamlit application, handles file uploads,
-    user queries, and bot responses.
+    The main function initializes and runs the Streamlit application. It handles 
+    the file uploads, user input, and displays bot responses.
 
-Usage:
-------
-Run the code to initialize the Streamlit application. Use the sidebar to upload PDF files,
-then ask questions related to the content of the uploaded PDFs in the text input box.
-The bot will provide answers based on the content of the uploaded documents.
+If you run this module directly, it will start the Streamlit application where you can
+upload PDFs and DOCX files, and then interact with their content using natural language queries.
 """
 
 

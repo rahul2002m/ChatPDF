@@ -33,12 +33,6 @@ Functions:
 - get_llm_chain(vectors: FAISS) -> ConversationalRetrievalChain:
     Creates a conversational retrieval chain using a given set of vectors.
 
-- create_user_chat_strip(user_input: str) -> None:
-    Displays the user's message on the Streamlit interface.
-
-- create_bot_chat_strip(bot_response: str) -> None:
-    Displays the bot's response on the Streamlit interface.
-
 - main() -> None:
     The main function that initializes the Streamlit application, handles file uploads,
     user queries, and bot responses.
@@ -62,7 +56,6 @@ from langchain.memory import ConversationBufferMemory
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
 from PyPDF2 import PdfReader
-from templates import bot_template, css, user_template
 
 os.environ["OPENAI_API_KEY"] = ""  # OPENAI_API_KEY
 
@@ -178,38 +171,6 @@ def get_llm_chain(vectors):
     return llm_chain
 
 
-def create_user_chat_strip(user_input):
-    """
-    Display the user's message on the Streamlit interface.
-
-    Parameters:
-    -----------
-    user_input : str
-        The text content of the user's message.
-
-    Returns:
-    --------
-    None
-    """
-    st.write(user_template.replace("{{message}}", user_input), unsafe_allow_html=True)
-
-
-def create_bot_chat_strip(bot_response):
-    """
-    Display the bot's response on the Streamlit interface.
-
-    Parameters:
-    -----------
-    bot_response : str
-        The text content of the bot's response.
-
-    Returns:
-    --------
-    None
-    """
-    st.write(bot_template.replace("{{message}}", bot_response), unsafe_allow_html=True)
-
-
 def main():
     """
     Main function to initialize the Streamlit application.
@@ -221,8 +182,6 @@ def main():
     """
     st.set_page_config(page_title="ChatPDF")
     st.title("ChatPDF - Chat with PDFs 📄")
-
-    st.write(css, unsafe_allow_html=True)
 
     if not "llm_chain" in st.session_state:
         st.session_state.llm_chain = None
@@ -240,9 +199,11 @@ def main():
         st.session_state.memory = bot_response["chat_history"]
         for idx, msg in enumerate(st.session_state.memory):
             if idx % 2 == 0:
-                create_user_chat_strip(msg.content)
+                with st.chat_message("user"):
+                    st.write(msg.content)
             else:
-                create_bot_chat_strip(msg.content)
+                with st.chat_message("assistant"):
+                    st.write(msg.content)
 
     elif user_input and not st.session_state.llm_chain:
         st.error("Please upload files and click proceed before asking questions")
@@ -262,13 +223,8 @@ def main():
                 vectors = get_vector(doc_chunks)
                 st.session_state.llm_chain = get_llm_chain(vectors)
 
-    st.write(
-        bot_template.replace(
-            "{{message}}",
-            "Hello, Please upload your files and click proceed to ask questions.",
-        ),
-        unsafe_allow_html=True,
-    )
+    with st.chat_message("assistant"):
+        st.write("Hello, Please upload your files and click proceed to ask questions.")
 
 
 if __name__ == "__main__":

@@ -5,6 +5,13 @@
 </h1>
 <h3>◦ Revolutionize collaboration with ChatPDF✨</h3>
 <h3>◦ Developed using &nbsp;&nbsp; <span><b>🐍Python</b></span>&nbsp;&nbsp; | &nbsp;&nbsp; <span>🦜️🔗 <b>LangChain</b></span></h3>
+  <p>
+    
+<img src="https://img.shields.io/badge/Streamlit-FF4B4B.svg?style&logo=Streamlit&logoColor=white" alt="Streamlit" />
+<img src="https://img.shields.io/badge/OpenAI-412991.svg?style&logo=OpenAI&logoColor=white" alt="OpenAI" />
+<img src="https://img.shields.io/badge/Python-3776AB.svg?style&logo=Python&logoColor=white" alt="Python" />
+<img src="https://img.shields.io/badge/Markdown-000000.svg?style&logo=Markdown&logoColor=white" alt="Markdown" />
+  </p>
 </div>
 
 ---
